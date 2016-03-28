@@ -1,1 +1,1 @@
-# SWEN303-Mini-Project-Colenso
+# SWEN303 Mini Project Colenso
