@@ -12,7 +12,7 @@ wget http://ecs.victoria.ac.nz/foswiki/pub/Courses/SWEN303_2016T1/Assignments/Co
 unzip Colenso_TEIs.zip
 rm Colenso_TEIs.zip
 cd ..
-basex/bin/basexserver -d -c"CREATE DATABASE Colenso ./SWEN303MiniProject/Colenso"
+basex/bin/basexserver -d -c"CREATE DATABASE Colenso ./Colenso"
 ```
 To run the xbase database again
 ```sh
