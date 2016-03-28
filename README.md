@@ -2,6 +2,7 @@
 
 ```sh
 git clone https://github.com/johndaviesco/SWEN303-Mini-Project-Colenso.git
+cd SWEN303-Mini-Project-Colenso/
 wget http://files.basex.org/releases/8.4.1/BaseX841.zip
 unzip BaseX841.zip
 rm BaseX841.zip
