@@ -1,5 +1,34 @@
-extends layout
+extends ../node_modules/jade-bootstrap/_bootstrap
 
-block content
-  h1= title
-  p Welcome to #{title}
+head
+  title=title
+
+block body
+  +navbar("Colenso Project", "dropdown_menu")
+    +nav_item("/", "active") Home
+    +nav_item("/browse") Browse Database
+  +a-btn-danger("#")
+    +icon('remove') 
+    | Remove
+  +a-btn-success("#")
+    +icon('download')
+    | Download
+  +a-btn-warning("#")
+    +icon('upload')
+    | Upload  
+  +a-btn-success("#")
+    +icon("cloud-download")
+    | Download
+  +a-btn-warning("#")
+    +icon("cloud-upload")
+    | Upload
+  +a-btn-success("#")
+    +icon("floppy-disk")
+    | Save
+  +a-btn-warning("#")
+    +icon("edit")
+    | Edit
+  +a-btn-warning("#")
+    +icon("file")
+    | File    
+
