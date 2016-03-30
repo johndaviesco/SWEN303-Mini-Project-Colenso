@@ -9,3 +9,22 @@ block body
     +nav_item("/search", "active") Search
     +nav_item("/browse") Browse
     +nav_item("/submit") Submit
+
+  .container
+    h2 Text Query
+    form.form-group(action="/search1", method="get")
+      input.input-block-level-success(type="text", name="query", placeholder="Text Query")
+      br
+      br
+      +a-btn-success(type="submit", name="place", value="1")
+        +icon('search')
+        | Search
+    br
+    h2 XQuery
+    form.form-group(action="/search2", method="get")
+      input.input-block-level(type="text", name="query", placeholder="XQuery")
+      br
+      br
+      +a-btn-success(type="submit")
+        +icon('search')
+        | Search
