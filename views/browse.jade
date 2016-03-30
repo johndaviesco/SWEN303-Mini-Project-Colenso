@@ -1,0 +1,11 @@
+extends ../node_modules/jade-bootstrap/_bootstrap
+
+head
+  title=Colenso
+
+block body
+  +navbar("Colenso Project", "dropdown_menu")
+    +nav_item("/") Home
+    +nav_item("/search") Search
+    +nav_item("/browse", "active") Browse
+    +nav_item("/submit") Submit

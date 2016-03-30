@@ -1,12 +1,14 @@
 extends ../node_modules/jade-bootstrap/_bootstrap
 
 head
-  title=title
+  title=Colenso
 
 block body
   +navbar("Colenso Project", "dropdown_menu")
     +nav_item("/", "active") Home
-    +nav_item("/browse") Browse Database
+    +nav_item("/search") Search
+    +nav_item("/browse") Browse
+    +nav_item("/submit") Submit
   +a-btn-danger("#")
     +icon('remove') 
     | Remove
