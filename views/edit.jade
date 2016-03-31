@@ -1,0 +1,27 @@
+extends ../node_modules/jade-bootstrap/_bootstrap
+head
+    title=title
+
+
+block body
+    +navbar("Colenso Project", "dropdown_menu")
+        +nav_item("/") Home
+        +nav_item("/search") Search
+        +nav_item("/browse", "active") Browse
+        +nav_item("/submit") Submit
+
+    .container
+        h2 Editing Document: #{path}
+        hr
+        if status != undefined
+            +alert-ix-success("  "+status)    
+        form(action='/submit?path=' + path, method='post')
+            textarea(name = 'text', style= "height:300px; width:100%") #{search_result}
+            hr
+            +submit-warning("Save and Replace")
+            div(style='width:10px; height:auto; display:inline-block;')
+            +a-btn-success('view?path=' + path) 
+              +icon("file")
+              div(style='width:10px; height:auto; display:inline-block;')
+              | Back to file
+            

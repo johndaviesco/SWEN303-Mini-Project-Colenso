@@ -1,0 +1,27 @@
+extends ../node_modules/jade-bootstrap/_bootstrap
+head
+    title=title
+block body
+    +navbar("Colenso Project", "dropdown_menu")
+        +nav_item("/") Home
+        +nav_item("/search") Search
+        +nav_item("/browse", "active") Browse
+        +nav_item("/submit") Submit
+
+    .container
+        h2 #{title}
+        hr
+    .container
+        +a-btn-warning('edit?path=' + path)
+            +icon("edit")
+            div(style='width:10px; height:auto; display:inline-block;')
+            | Edit Document
+        div(style='width:20px; height:auto; display:inline-block;')      
+        +a-btn-success("download?path=" + path)
+            +icon("download")
+            div(style='width:10px; height:auto; display:inline-block;')
+            | Download Document
+
+        hr
+        !{search_result}
+        hr

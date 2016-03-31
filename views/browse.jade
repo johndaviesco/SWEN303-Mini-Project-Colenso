@@ -1,7 +1,7 @@
 extends ../node_modules/jade-bootstrap/_bootstrap
 
 head
-  title="Colenso"
+  title=title
 
 block body
   +navbar("Colenso Project", "dropdown_menu")
@@ -11,7 +11,7 @@ block body
     +nav_item("/submit") Submit
 
   .container
-    h1 Browse Databse
+    h2 Browse Databse
     p File shown in a file system hierarchy.
     hr
   .container
@@ -19,27 +19,29 @@ block body
     if folders.length == 0 || folders.length < 5
       +a-btn-success("/browse")
         +icon("home")
+        div(style='width:10px; height:auto; display:inline-block;')
         | Home
 
     if folders.length > 0
       h3 Folders
       each folder in folders
-        a(href='/browse?path=' + folder) #{folder}
+        +a-btn-info('/browse?path=' + folder) 
+          +icon("folder-open")
+          div(style='width:10px; height:auto; display:inline-block;')
+          | #{folder}
+        br
         br
     hr
     if files != undefined
       if path.length > 1
-        h3 Files in #{path}
+        h3 Files: #{path}
       else
         h3 Files
       each file in files
-        a(href='view?path=' + path + file) #{file}
+        +a-btn('view?path=' + path + file) 
+          +icon("file")
+          div(style='width:10px; height:auto; display:inline-block;')
+          | #{file}
+        br
         br
     hr
-    h3 Upload	
-    form(action="/upload?path=" + path, method="post", enctype="multipart/form-data")
-      input(type="file", name="file")
-      br
-      +a-btn-success(type="submit")
-        +icon("upload")
-        | Upload

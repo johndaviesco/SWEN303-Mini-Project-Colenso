@@ -57,13 +57,75 @@ router.get("/browse",function(req,res) {
                         unique_folders.push(folders[i]);
                     }
                 }
-                res.render('browse', {title: 'Some Letters?', path: path, folders: unique_folders, files: files});
+                res.render('browse', {title: 'Browse Documents', path: path, folders: unique_folders, files: files});
             }
     })
 });
 
+router.get('/view', function(req, res) {
+    var queries = req.query;
+    client.execute("XQUERY doc ('Colenso/" + queries.path + "')",
+        function(error, result) {
+            if(error){
+                console.error(error);
+            } 
+            else {
+                res.render('view', {title: 'Document Viewer', search_result: result.result, path: queries.path});
+            }
+        }
+    )
+});
+
+router.get('/edit', function(req,res) {
+    var queries = req.query;
+    client.execute("XQUERY doc ('Colenso/" + queries.path + "')",
+        function(error, result) {
+            if(error) {
+                console.error(error);
+            } else {
+                res.render('edit', {title: 'Document Edit', search_result: result.result, path: queries.path});
+            }
+
+        }
+    )
+});
+
 router.get('/submit', function (req, res) {
-	res.render('submit');
+    res.render('submit');
+});
+
+router.post("/submit",function(req,res){
+    var queries = req.query;
+    client.replace(queries.path, req.body.text,
+        function(error, result) {
+            if(error) {
+                console.error(error);
+            } else {
+                res.render('edit', {title: 'Document Edit', status: 'Changes Saved', search_result: req.body.text, path: queries.path});
+            }
+        }
+    )
+});
+
+router.get('/download', function(req, res) {
+    var queries = req.query;
+    var fullpath  = queries.path.split('/');
+    var filename = fullpath[fullpath.length - 1];
+    client.execute("XQUERY doc ('Colenso/" + queries.path + "')",
+        function(error, result) {
+            if(error){
+                console.error(error);
+            }
+            else {
+                var doc = result.result;
+                res.writeHead(200, {
+                    'Content-Disposition': 'attachment; filename=' + filename
+                });
+                res.write(doc);
+                res.end();
+            }
+        }
+    )
 });
 
 module.exports = router;
