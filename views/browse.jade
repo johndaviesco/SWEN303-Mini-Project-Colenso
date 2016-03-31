@@ -45,3 +45,7 @@ block body
         br
         br
     hr
+    form(action="/upload?path=" + path, method="post", enctype="multipart/form-data")
+      input(type="file", name="file")
+      br
+      +submit-success("Upload")

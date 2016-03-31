@@ -16,10 +16,6 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/search', function (req, res) {
-	res.render('search');
-});
-
 router.get("/browse",function(req,res) {
 
     var queries = req.query;
@@ -126,6 +122,91 @@ router.get('/download', function(req, res) {
             }
         }
     )
+});
+
+router.get('/search', function(req, res) {
+    if(req.query.searchString){
+        var array = req.query.searchString.split(" ");
+        var queryString = "";
+            queryString += array[0];
+            if(1 < array.length){
+                if(array[1] === "OR"){
+                    queryString += "' ftor '";
+                    queryString += array[2];
+                }
+                else if(array[1] === "AND"){
+                    queryString += "' ftand '";
+                    queryString += array[2];
+                }
+                else if(array[1] === "NOT"){
+                    queryString += "' ftand ftnot '";
+                    queryString += array[2];
+                }
+                else if(array[0] === "NOT"){
+                    queryString += "' ftand ftnot '";
+                    queryString += array[2];
+                }
+                else{
+                    queryString += " ";
+                    queryString += array[1];
+                }
+            }
+    }
+    var query = "XQUERY declare default element namespace 'http://www.tei-c.org/ns/1.0';" +
+        "for $n in (collection('Colenso')[. contains text '" + queryString + "' using wildcards])" +
+        " return db:path($n)";
+    client.execute(query,
+        function (error, result) {
+            if(error) {
+                console.error(error);
+            }
+            else {
+                var splitlist = result.result.split("\n");
+                res.render('search', { title: 'Search', results: splitlist});
+            }
+        }
+    );
+});
+
+router.get('/xquery', function(req, res) {
+    var xquery = "XQUERY declare default element namespace 'http://www.tei-c.org/ns/1.0';" +
+        "for $n in " + req.query.searchString +
+        " return db:path($n)";
+
+    client.execute(xquery,
+        function (error, result) {
+            if(error) {
+                console.error(error);
+            }
+            else {
+                var splitlist = result.result.split("\n");
+                res.render('xquery', { title: 'Colenso Project', results: splitlist});
+            }
+        }
+    );
+});
+
+router.post('/upload', function(req, res){
+    var queries = req.query;
+
+    if(req.file){
+        var path = queries.path + req.file.originalname;
+
+        var file = req.file.buffer.toString();
+        client.execute('ADD TO ' + path + ' "' + file + '"', function(error, result){
+            if(error){
+                console.error(error);
+            }
+        });
+    } else {
+        console.log('no file?');
+    }
+
+    if (queries.path) {
+        res.redirect('browse/?path=' + queries.path.substring(0, queries.path.length - 1));
+    } else {
+        res.redirect('browse');
+    }
 });
 
 module.exports = router;
