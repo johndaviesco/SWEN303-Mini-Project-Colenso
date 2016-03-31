@@ -1,8 +1,8 @@
 # SWEN303 Mini Project Colenso
 
-Dependencies
-Nodejs
-Java 7
+Dependencies:
+Nodejs,
+Java 7,
 unzip
 
 ```sh
